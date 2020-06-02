@@ -22,6 +22,7 @@ class Vertex(object):
         Parameters:
         vertex_obj (Vertex): An instance of Vertex to be stored as a neighbor.
         """
+        self.__neighbors_dict[vertex_obj.__id] = vertex_obj
         pass
 
     def __str__(self):
@@ -66,6 +67,8 @@ class Graph:
         Returns:
         Vertex: The new vertex object.
         """
+        new_vertex = Vertex(vertex_id)
+        self.__vertex_dict[vertex_id] = new_vertex
         pass
         
 
@@ -85,6 +88,11 @@ class Graph:
         vertex_id1 (string): The unique identifier of the first vertex.
         vertex_id2 (string): The unique identifier of the second vertex.
         """
+        vertex1 = self.__vertex_dict[vertex_id1]
+        vertex2 = self.__vertex_dict[vertex_id2]
+        vertex1.add_neighbor(vertex2)
+        if(self.__is_directed):
+            vertex2.add_neighbor(vertex1)
         pass
         
     def get_vertices(self):
