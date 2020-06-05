@@ -13,7 +13,7 @@ class Vertex(object):
         vertex_id (string): A unique identifier to identify this vertex.
         """
         self.__id = vertex_id
-        self.__neighbors_dict = {} # id -> object
+        self.__neighbors_dict = {} # neighbor_id -> object
 
     def add_neighbor(self, vertex_obj):
         """
@@ -39,7 +39,7 @@ class Vertex(object):
         return list(self.__neighbors_dict.values())
 
     def get_id(self):
-        """Return the id of this vertex."""
+        """Return the neighbor_id of this vertex."""
         return self.__id
 
 
@@ -54,7 +54,7 @@ class Graph:
         Parameters:
         is_directed (boolean): Whether the graph is directed (edges go in only one direction).
         """
-        self.__vertex_dict = {} # id -> object
+        self.__vertex_dict = {} # neighbor_id -> object
         self.__is_directed = is_directed
 
     def add_vertex(self, vertex_id):
@@ -69,7 +69,7 @@ class Graph:
         """
         new_vertex = Vertex(vertex_id)
         self.__vertex_dict[vertex_id] = new_vertex
-        pass
+        return new_vertex
         
 
     def get_vertex(self, vertex_id):
@@ -82,7 +82,7 @@ class Graph:
 
     def add_edge(self, vertex_id1, vertex_id2):
         """
-        Add an edge from vertex with id `vertex_id1` to vertex with id `vertex_id2`.
+        Add an edge from vertex with neighbor_id `vertex_id1` to vertex with neighbor_id `vertex_id2`.
 
         Parameters:
         vertex_id1 (string): The unique identifier of the first vertex.
@@ -91,7 +91,7 @@ class Graph:
         vertex1 = self.__vertex_dict[vertex_id1]
         vertex2 = self.__vertex_dict[vertex_id2]
         vertex1.add_neighbor(vertex2)
-        if(self.__is_directed):
+        if(not self.__is_directed):
             vertex2.add_neighbor(vertex1)
         pass
         
@@ -150,8 +150,8 @@ class Graph:
         Find and return the shortest path from start_id to target_id.
 
         Parameters:
-        start_id (string): The id of the start vertex.
-        target_id (string): The id of the target (end) vertex.
+        start_id (string): The neighbor_id of the start vertex.
+        target_id (string): The neighbor_id of the target (end) vertex.
 
         Returns:
         list<string>: A list of all vertex ids in the shortest path, from start to end.
@@ -197,10 +197,31 @@ class Graph:
         Find and return all vertices n distance away.
         
         Arguments:
-        start_id (string): The id of the start vertex.
+        start_id (string): The neighbor_id of the start vertex.
         target_distance (integer): The distance from the start vertex we are looking for
 
         Returns:
         list<string>: All vertex ids that are `target_distance` away from the start vertex
         """
-        pass
+        seen = set()
+        dist_dict = {start_id: 0}
+        quene = [start_id]
+        current_dist = 0
+        correct_dist = []
+        while len(quene) > 0 and current_dist < target_distance:
+            current_id = quene.pop(0)
+            seen.add(current_id)
+            current_dist = dist_dict[current_id]
+            current_vertex = self.get_vertex(current_id)
+            print(current_vertex, quene)
+            for neighbor in current_vertex.get_neighbors():
+                neighbor_id = neighbor.get_id()
+                if neighbor_id not in seen:
+                    quene.append(neighbor_id)
+                
+                if neighbor_id not in dist_dict:
+                    dist_dict[neighbor_id] = current_dist + 1
+                    if current_dist + 1 == target_distance:
+                        correct_dist.append(neighbor_id)
+        return correct_dist
+
