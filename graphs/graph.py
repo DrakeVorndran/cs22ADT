@@ -225,3 +225,25 @@ class Graph:
                         correct_dist.append(neighbor_id)
         return correct_dist
 
+    def is_bipartite(self):
+        start_id = self.__vertex_dict.keys()[0].__id
+        quene = [start_id]
+        color_dict = {start_id: 0}
+        seen = set()
+        seen.add(start_id)
+        current_color = 0
+        while len(quene) > 0:
+            current_id = quene.pop(0)
+            seen.add(current_id)
+            current_node = self.get_vertex(current_id)
+            for neighbor in current_node.get_neighbors():
+                if neighbor.__id in color_dict:
+                    if color_dict[neighbor.__id] == current_color:
+                        return False
+                else:
+                    color_dict[neighbor.__id] == (current_color + 1) % 2
+                    quene.append(neighbor.__id)
+        return True
+
+
+
