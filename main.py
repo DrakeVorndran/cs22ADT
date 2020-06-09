@@ -47,6 +47,10 @@ if __name__ == '__main__':
     print('Finding bipartiteness...')
     print(graph.is_bipartite())
 
+    # Get all connected components
+    print('Finding components...')
+    print(graph.get_connected_components())
+
     # Search the graph
     print('Performing BFS traversal...')
     graph.bfs_traversal('A')
