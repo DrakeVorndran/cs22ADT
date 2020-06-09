@@ -185,7 +185,6 @@ class Graph:
                     next_path = current_path + [neighbor.get_id()]
                     vertex_id_to_path[neighbor.get_id()] = next_path
                     queue.append(neighbor)
-                    # print(vertex_id_to_path)
 
         if target_id not in vertex_id_to_path: # path not found
             return None
@@ -213,7 +212,6 @@ class Graph:
             seen.add(current_id)
             current_dist = dist_dict[current_id]
             current_vertex = self.get_vertex(current_id)
-            print(current_vertex, quene)
             for neighbor in current_vertex.get_neighbors():
                 neighbor_id = neighbor.get_id()
                 if neighbor_id not in seen:
@@ -226,7 +224,7 @@ class Graph:
         return correct_dist
 
     def is_bipartite(self):
-        start_id = self.__vertex_dict.keys()[0].__id
+        start_id = list(self.__vertex_dict.keys())[0]
         quene = [start_id]
         color_dict = {start_id: 0}
         seen = set()
@@ -237,12 +235,13 @@ class Graph:
             seen.add(current_id)
             current_node = self.get_vertex(current_id)
             for neighbor in current_node.get_neighbors():
-                if neighbor.__id in color_dict:
-                    if color_dict[neighbor.__id] == current_color:
+                neighbor_id = neighbor.get_id()
+                if neighbor_id in color_dict:
+                    if color_dict[neighbor_id] == current_color:
                         return False
                 else:
-                    color_dict[neighbor.__id] == (current_color + 1) % 2
-                    quene.append(neighbor.__id)
+                    color_dict[neighbor_id] = (current_color + 1) % 2
+                    quene.append(neighbor_id)
         return True
 
 

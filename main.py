@@ -43,6 +43,10 @@ if __name__ == '__main__':
         for neighbor_obj in vertex_obj.get_neighbors():
             print(f'({vertex_obj.get_id()} , {neighbor_obj.get_id()})')
 
+    # Find whether the graph is bipartite
+    print('Finding bipartiteness...')
+    print(graph.is_bipartite())
+
     # Search the graph
     print('Performing BFS traversal...')
     graph.bfs_traversal('A')
@@ -57,6 +61,4 @@ if __name__ == '__main__':
     vertices_2_away = graph.find_vertices_n_away('A', 2)
     print(vertices_2_away)
 
-    # Find whether the graph is bipartite
-    print('Finding bipartiteness...')
-    print(graph.is_bipartite())
+    
