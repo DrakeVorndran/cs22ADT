@@ -232,6 +232,8 @@ class Graph:
         current_color = 0
         while len(quene) > 0:
             current_id = quene.pop(0)
+            current_color = color_dict[current_id]
+            print(current_id)
             seen.add(current_id)
             current_node = self.get_vertex(current_id)
             for neighbor in current_node.get_neighbors():
@@ -244,7 +246,7 @@ class Graph:
                     quene.append(neighbor_id)
         return True
 
-    def get_connected_components(self):
+    def find_connected_components(self):
         all_ids = set(self.__vertex_dict.keys())
 
         components = []
