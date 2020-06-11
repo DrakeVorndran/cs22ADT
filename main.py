@@ -47,8 +47,12 @@ if __name__ == '__main__':
     print('Finding bipartiteness...')
     print(graph.is_bipartite())
 
+    # Find The Topological sort of the graph
+    print("topological sort")
+    print(graph.topological_sort())
+
     # Get all connected components
-    print('Finding components...')
+    print('Finding connected components...')
     print(graph.get_connected_components())
 
     # Search the graph

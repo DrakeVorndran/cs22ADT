@@ -270,6 +270,24 @@ class Graph:
                         seen.add(neighbor_id)
             components.append(list(seen))
         return(components)
+    
+    def topological_sort(self):
+    """
+    Return a valid ordering of vertices in a directed acyclic graph.
+    If the graph contains a cycle, throw a ValueError.
+    """
+    verts = self.get_vertices()
+    indegree_dict = {}
+    for vert in verts: 
+        for neighbor in vert.get_neighbors():
+            neighbor_id = neighbor.get_id()
+            if neighbor_id in indegree_dict:
+                indegree_dict[neighbor_id] += 1
+            else:
+                indegree_dict[neighbor_id] = 1
+    print(indegree_dict)
+
+
 
 
 
