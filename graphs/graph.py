@@ -233,7 +233,6 @@ class Graph:
         while len(quene) > 0:
             current_id = quene.pop(0)
             current_color = color_dict[current_id]
-            print(current_id)
             seen.add(current_id)
             current_node = self.get_vertex(current_id)
             for neighbor in current_node.get_neighbors():
