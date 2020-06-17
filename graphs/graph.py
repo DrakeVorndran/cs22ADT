@@ -305,6 +305,34 @@ class Graph:
                     indeg0.append(neighbor_id)
         return sorted_list
 
+    def find_path_dfs_iter(self, start_id, target_id):
+        """
+        Use DFS with a stack to find a path from start_id to target_id.
+        """
+        stack = [start_id]
+        path = []
+        depth = {}
+        depth[start_id] = 0
+
+        while len(stack) > 0:
+            current_id = stack.pop()
+            current_depth = depth[current_id]
+            current_vertex = self.get_vertex(current_id)
+            path = path[:current_depth + 1]
+            path.append(current_id)
+            for neighbor in current_vertex.get_neighbors():
+                neighbor_id = neighbor.get_id()
+                if neighbor_id not in depth:
+                    if neighbor_id == target_id:
+                        path.append(neighbor_id)
+                        return path
+                    depth[neighbor_id] = current_depth + 1
+                    stack.append(neighbor_id)
+            
+
+                    
+    pass
+
 
 
 
