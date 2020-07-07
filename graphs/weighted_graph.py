@@ -29,7 +29,7 @@ class WeightedVertex(object):
     def get_neighbors(self):
         """Return the neighbors of this vertex as a list of neighbor ids."""
         # TODO: Implement this function.]
-        return self.__neighbors_dict.keys()
+        return [i[0] for i in self.__neighbors_dict.values()]
         pass
 
     def get_neighbors_with_weights(self):
@@ -113,6 +113,9 @@ class WeightedGraph(Graph):
         if(parent_map[vertex_id] == vertex_id):
             return vertex_id
         return self.find(parent_map, parent_map[vertex_id])
+
+    def contains_id(self, vertex_id):
+        return vertex_id in self.__vertex_dict
 
     def minimum_spanning_tree_kruskal(self):
         """
@@ -202,3 +205,33 @@ class WeightedGraph(Graph):
                     
         print(solution)
         # TODO: Return total weight of MST
+
+    def find_shortest_path(self, start_id, target_id):
+        """
+        Use Dijkstra's Algorithm to return the total weight of the shortest path
+        from a start vertex to a destination.
+        """
+        # TODO: Create a dictionary `vertex_to_distance` and initialize all
+        # vertices to INFINITY - hint: use `float('inf')`
+        vertex_to_distance = {i.get_id(): float("inf") for i in self.get_vertices()}
+        vertex_to_distance[start_id] = 0
+
+        # TODO: While `vertex_to_distance` is not empty:
+        # 1. Get the minimum-distance remaining vertex, remove it from the
+        #    dictionary. If it is the target vertex, return its distance.
+        # 2. Update that vertex's neighbors by adding the edge weight to the
+        #    vertex's distance, if it is lower than previous.
+        while(vertex_to_distance):
+            bestVert = (start_id, float("inf"))
+            for vert_id, dist in vertex_to_distance.items():
+                if dist < bestVert[1]:
+                    bestVert = (vert_id, dist)
+            if(bestVert[0] == target_id):
+                return bestVert[1]
+
+            del vertex_to_distance[bestVert[0]]
+            for neighbor, weight in self.get_vertex(bestVert[0]).get_neighbors_with_weights():
+                if(neighbor in vertex_to_distance):
+                    vertex_to_distance[neighbor] = min(vertex_to_distance[neighbor], weight + bestVert[1])
+        return None
+        # TODO: Return None if target vertex not found.
